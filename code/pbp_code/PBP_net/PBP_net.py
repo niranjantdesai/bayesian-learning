@@ -7,11 +7,11 @@ import gzip
 
 import pbp
 
-class PBP_net:
 
-    def __init__(self, X_train, y_train, n_hidden, n_epochs = 40,
-        normalize = False):
+class PBPNet(object):
 
+    def __init__(self, X_train, y_train, n_hidden, n_epochs=40,
+                 normalize=False):
         """
             Constructor for the class implementing a Bayesian neural network
             trained with the probabilistic back propagation method.
@@ -36,11 +36,11 @@ class PBP_net:
 
         if normalize:
             self.std_X_train = np.std(X_train, 0)
-            self.std_X_train[ self.std_X_train == 0 ] = 1
+            self.std_X_train[self.std_X_train == 0] = 1
             self.mean_X_train = np.mean(X_train, 0)
         else:
-            self.std_X_train = np.ones(X_train.shape[ 1 ])
-            self.mean_X_train = np.zeros(X_train.shape[ 1 ])
+            self.std_X_train = np.ones(X_train.shape[1])
+            self.mean_X_train = np.zeros(X_train.shape[1])
 
         X_train = (X_train - np.full(X_train.shape, self.mean_X_train)) / \
             np.full(X_train.shape, self.std_X_train)
@@ -52,7 +52,7 @@ class PBP_net:
 
         # We construct the network
 
-        self.net = pbp.construct_PBP_network(n_hidden, X_train.shape[ 1 ])
+        self.net = pbp.construct_PBP_network(n_hidden, X_train.shape[1])
 
         # We iterate the learning process
 
@@ -61,7 +61,6 @@ class PBP_net:
         # We are done!
 
     def re_train(self, X_train, y_train, n_epochs):
-
         """
             Function that re-trains the network on some data.
 
@@ -72,7 +71,7 @@ class PBP_net:
                                 network. 
         """
 
-        # We normalize the training data 
+        # We normalize the training data
 
         X_train = (X_train - np.full(X_train.shape, self.mean_X_train)) / \
             np.full(X_train.shape, self.std_X_train)
@@ -82,13 +81,12 @@ class PBP_net:
         pbp.train_PBP_network(self.net, X_train, y_train_normalized, n_epochs)
 
     def predict(self, X_test):
-
         """
             Function for making predictions with the Bayesian neural network.
 
             @param X_test   The matrix of features for the test data
-            
-    
+
+
             @return m       The predictive mean for the test target variables.
             @return v       The predictive variance for the test target
                             variables.
@@ -96,7 +94,7 @@ class PBP_net:
 
         """
 
-        X_test = np.array(X_test, ndmin = 2)
+        X_test = np.array(X_test, ndmin=2)
 
         # We normalize the test set
 
@@ -113,23 +111,22 @@ class PBP_net:
 
         # We are done!
 
-        return m, v, v_noise[ 0 ]
+        return m, v, v_noise[0]
 
     def predict_deterministic(self, X_test):
-
         """
             Function for making deterministic predictions with the Bayesian
             neural network using the weights sampled from the posterior
             approximation.
 
             @param X_test   The matrix of features for the test data
-            
-    
+
+
             @return y_hat   The predictive mean for the test target variables.
 
         """
 
-        X_test = np.array(X_test, ndmin = 2)
+        X_test = np.array(X_test, ndmin=2)
 
         # We normalize the test set
 
@@ -147,26 +144,24 @@ class PBP_net:
         return y_hat
 
     def sample_weights(self):
-
         """
             Function that draws a sample from the posterior approximation
             to the weights distribution.
 
         """
-    
+
         pbp.sample_weights_PBP_network(self.net)
 
     def save_to_file(self, filename):
-
         """
             Function that stores the network in a file.
 
             @param filename   The name of the file.
-            
+
         """
 
         # We backup the current network
-        
+
         old_net = self.net
 
         # We map the network to a dictionary
@@ -178,7 +173,8 @@ class PBP_net:
         def save_object(obj, filename):
 
             result = pickle.dumps(obj)
-            with gzip.GzipFile(filename, 'wb') as dest: dest.write(result)
+            with gzip.GzipFile(filename, 'wb') as dest:
+                dest.write(result)
             dest.close()
 
         save_object(self, filename)
@@ -187,19 +183,20 @@ class PBP_net:
 
         self.net = old_net
 
-def load_PBP_net_from_file(filename):
 
+def load_PBP_net_from_file(filename):
     """
         Function that load a network from a file.
 
         @param filename   The name of the file.
-        
+
     """
 
     def load_object(filename):
 
         with gzip.GzipFile(filename, 'rb') as \
-            source: result = source.read()
+                source:
+            result = source.read()
         ret = pickle.loads(result)
         source.close()
 

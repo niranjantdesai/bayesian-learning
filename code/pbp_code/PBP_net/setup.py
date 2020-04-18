@@ -21,23 +21,23 @@ from Cython.Distutils import build_ext
 ext_modules = [Extension(
     name="pbp",
     sources=["pbp.pyx", "network.c", "pnorm.c"],
-        # extra_objects=["fc.o"],  # if you compile fc.cpp separately
-    include_dirs = [numpy.get_include()],  # .../site-packages/numpy/core/include
+    # extra_objects=["fc.o"],  # if you compile fc.cpp separately
+    include_dirs=[numpy.get_include()],  # .../site-packages/numpy/core/include
     language="c",
-        libraries= [ "openblas" ],
-        extra_compile_args = [ "-O3" ]
-        # extra_link_args = "...".split()
-    )]
+    libraries=["openblas"],
+    extra_compile_args=["-O3"]
+    # extra_link_args = "...".split()
+)]
 
 setup(
-    name = 'pbp',
-    cmdclass = {'build_ext': build_ext},
-    ext_modules = ext_modules,
-        # ext_modules = cythonize(ext_modules)  ? not in 0.14.1
+    name='pbp',
+    cmdclass={'build_ext': build_ext},
+    ext_modules=ext_modules,
+    # ext_modules = cythonize(ext_modules)  ? not in 0.14.1
     # version=
     # description=
     # author=
     # author_email=
-    )
+)
 
 # test: import f
