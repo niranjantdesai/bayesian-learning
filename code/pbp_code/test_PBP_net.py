@@ -22,7 +22,7 @@ permutation = np.random.choice(X.shape[0],
                                X.shape[0], replace=False)
 
 size_train = int(np.round(X.shape[0] * 0.9).item())
-print(size_train)
+
 index_train = permutation[:size_train]
 index_test = permutation[size_train:]
 
