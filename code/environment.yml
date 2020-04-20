@@ -1,0 +1,19 @@
+name: bl
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.8
+  - numpy
+  - cython
+  - pylint
+  - autopep8
+  - torchvision
+  - cudatoolkit=10.1
+  - pytorch
+  - jupyter
+  - gpy
+  - matplotlib
+  - scikit-learn
+prefix: /home/ayush/install/anaconda3/envs/bl
+
