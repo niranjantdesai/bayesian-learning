@@ -15,5 +15,7 @@ dependencies:
   - gpy
   - matplotlib
   - scikit-learn
+  - pip:
+    - 
 prefix: /home/ayush/install/anaconda3/envs/bl
 
