@@ -5,10 +5,15 @@ from torch.autograd import Variable
 
 
 def log_gaussian_loss(output, target, sigma, no_dim):
-    exponent = -0.5*(target - output)**2/sigma**2
-    log_coeff = -no_dim*torch.log(sigma)
+    # exponent = -0.5*(target - output)**2/sigma**2
+    # log_coeff = -no_dim*torch.log(sigma)
 
-    return - (log_coeff + exponent).sum()
+    # return - (log_coeff + exponent).mean()
+
+    exponent = ((target - output)/sigma)**2
+    log_coeff = no_dim*torch.log(sigma)
+
+    return (log_coeff + 0.5*exponent).mean()
 
 
 def get_kl_divergence(weights, prior, varpost):

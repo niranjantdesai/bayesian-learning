@@ -35,18 +35,12 @@ class Langevin_SGD(Optimizer):
             for p in group['params']:
                 if p.grad is None:
                     continue
-                d_p = p.grad.data
+                d_p = p.grad
 
-                if len(p.shape) == 1 and p.shape[0] == 1:
-                    p.data.add_(-group['lr'], d_p)
+                if weight_decay != 0:
+                    d_p = d_p.add(p, alpha=weight_decay)
 
-                else:
-                    if weight_decay != 0:
-                        d_p.add_(weight_decay, p.data)
-
-                    unit_noise = Variable(p.data.new(p.size()).normal_())
-
-                    p.data.add_(-group['lr'], 0.5*d_p +
-                                unit_noise/group['lr']**0.5)
+                p.data.add_(-group['lr'], 0.5*d_p +
+                            unit_noise/group['lr']**0.5)
 
         return loss
