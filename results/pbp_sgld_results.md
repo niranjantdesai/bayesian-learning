@@ -135,14 +135,14 @@ Model details:
 - Using Gaussian distribution with std 1.0
 - other params as exp5 of dataset 1
 
-![Plot](./plots/pbp_sgld_data3_exp2.png)
+![Plot](./plots/pbp_sgld_data3_exp5.png)
 
 ## Dataset 4
 
 - Using Gaussian distribution with std 1.5
 - other params as exp5 of dataset 1
 
-![Plot](./plots/pbp_sgld_data4_exp2.png)
+![Plot](./plots/pbp_sgld_data4_exp5.png)
 
 
 
