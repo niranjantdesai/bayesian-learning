@@ -38,29 +38,28 @@ class Langevin_Wrapper():
         self.loss_func = torch.nn.MSELoss(reduction='mean')
         # self.loss_func = sgld_utils.log_gaussian_loss
 
-        # self.scheduler = torch.optim.lr_scheduler.StepLR(
-        #     self.optimizer, step_size=int(num_epochs//6), gamma=0.5)  # to reduce by 100 over the course of optimization
+        self.scheduler = torch.optim.lr_scheduler.MultiplicativeLR(
+            self.optimizer, lr_lambda=lambda epoch: 0.02 if epoch == num_burn_in_steps-2 else 1.0)  # to reduce by 100 over the course of optimization
 
     def fit(self, x, y):
         # x, y = sgld_utils.to_variable(var=(x, y), cuda=self.cuda)
 
         output = self.network(x)
-        loss = self.loss_func(output, y)
+        fidelity = self.loss_func(output, y)
 
         # # compute the prior on parameters:
-        # prior = 0.0
-        # for param in self.network.net.parameters():
-        #     if param.requires_grad:
-        #         prior += (0.5)*torch.sum(torch.pow(param, 2))
+        prior = 0.0
+        for param in self.network.net.parameters():
+            if param.requires_grad:
+                prior += torch.sum(torch.pow(param, 2))
 
-        # loss = 0.5*self.loss_func(
-        #     output, y, self.network.noise, 1)  # + 0.0*prior
+        loss = fidelity + 1e-3 * prior
 
         # reset gradient and total loss
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
-        # self.scheduler.step()
+        self.scheduler.step()
 
         return loss
 
