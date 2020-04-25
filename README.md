@@ -19,4 +19,5 @@
 # Running instructions
 
 * To run SGLD experiment: python code/sgld_final_code/SGLD-64/train.py
-* Jupyter notebook can be run from the code directory as the base
+* Jupyter notebooks for SGLD and PBP can be run from the code directory as the base
+* Jupyter notebooks for Monte Carlo dropout and Bayes by Backprop can be run in Google Colab directly
