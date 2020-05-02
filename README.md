@@ -1,4 +1,4 @@
-# Bayesian Learing
+# Bayesian Learning
 
 ## Setup
 * Use the environment.yml file to setup a conda environment
